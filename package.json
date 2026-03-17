@@ -1,0 +1,136 @@
+{
+  "name": "codexplain-AI",
+  "displayName": "Codexplain",
+  "description": "AI powered code explanation using local LLM",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/Chandanan14/Codexplain.git"
+},
+  "version": "1.0.1",
+  "icon": "icon.png",
+   "publisher": "chandanaN",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "keywords": [
+    "ai",
+    "code explanation",
+    "debugging",
+    "developer tools",
+    "coding assistant",
+    "code analysis"
+  ],
+  "categories": [
+    "AI", "Programming Languages","Other","Education"
+  ],
+  "activationEvents": [
+    "onCommand:codexplain.explainCode",
+    "onCommand:codexplain.generateComments",
+    "onCommand:codexplain.showStats"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codexplain.explainCode",
+        "title": "Codexplain: Explain Code"
+      },
+      {
+        "command": "codexplain.generateComments",
+        "title": "Codexplain: Generate Comments"
+      },
+      {
+        "command": "codexplain.showStats",
+        "title": "Codexplain: Show Coding Stats"
+      },
+      {
+  "command": "codexplain.analyzeFile",
+  "title": "Codexplain: Analyze Entire File"
+},
+{
+  "command": "codexplain.explainError",
+  "title": "Codexplain: Explain Error"
+}
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codexplain.explainCode",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        },
+        {
+          "command": "codexplain.generateComments",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        },
+        {
+          "command": "codexplain.showStats",
+          "group": "navigation"
+        },
+        {
+  "command": "codexplain.analyzeFile",
+  "group": "navigation"
+},
+{
+  "command": "codexplain.explainError",
+  "group": "navigation"
+}
+      ]
+    },
+
+    "keybindings": [
+  {
+    "command": "codexplain.explainCode",
+    "key": "ctrl+shift+e",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "codexplain.generateComments",
+    "key": "ctrl+shift+c",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "codexplain.showStats",
+    "key": "ctrl+shift+s"
+  },
+  {
+  "command": "codexplain.analyzeFile",
+  "key": "ctrl+shift+a",
+  "when": "editorTextFocus"
+},
+ {
+  "command": "codexplain.explainError",
+  "key": "ctrl+shift+X",
+  "when": "editorTextFocus"
+}
+]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.110.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.27.3",
+    "eslint": "^9.39.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": { }
+}
