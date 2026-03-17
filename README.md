@@ -11,9 +11,7 @@ It allows developers to quickly generate explanations, comments, file summaries,
 
 Demo
 
-<p align="center">
-  <img src="https://github.com/Chandanan14/Codexplain/blob/main/images/demo.gif?raw=true" width="800">
-</p>
+![Codexplain Demo](https://raw.githubusercontent.com/Chandanan14/Codexplain/main/images/demo.gif)
 
 ---
 
