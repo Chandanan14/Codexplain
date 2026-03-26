@@ -551,6 +551,10 @@ transition:opacity 0.3s ease;
 
 <h2>Codexplain</h2>
 
+<div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+  <button id="speakerBtn">🔊</button>
+</div>
+
 <p><b>Language:</b> ${language}</p>
 
 <div class="section">
@@ -572,9 +576,35 @@ ${mode==="explain"
 
 <script>
 
+
+
 hljs.highlightAll();
 
 let full="";
+
+let voicesList = [];
+
+window.speechSynthesis.onvoiceschanged = () => {
+    voicesList = window.speechSynthesis.getVoices();
+};
+
+let isSpeaking = false;
+let currentSpeech = null;
+let latestResponse = "";
+
+const speakerBtn = document.getElementById("speakerBtn");
+
+speakerBtn.addEventListener("click", () => {
+
+    if (!latestResponse) return;
+
+    if (!isSpeaking) {
+        startSpeech(latestResponse);
+    } else {
+        stopSpeech();
+    }
+
+});
 
 function toggleDetails(){
 
@@ -582,6 +612,63 @@ const d=document.getElementById("detailsSection");
 
 d.style.display = d.style.display==="none" ? "block" : "none";
 
+}
+
+function startSpeech(text){
+
+    window.speechSynthesis.cancel();
+
+    currentSpeech = new SpeechSynthesisUtterance(text);
+	
+	const voices = voicesList.length ? voicesList : window.speechSynthesis.getVoices();
+
+// Priority list of best voices
+const preferredVoices = [
+    "Google US English",
+    "Google UK English Female",
+    "Microsoft Zira",
+    "Microsoft David",
+    "Samantha",
+    "Alex"
+];
+
+// Find first matching voice
+let selectedVoice = null;
+
+for (let name of preferredVoices) {
+    selectedVoice = voices.find(v => v.name.includes(name));
+    if (selectedVoice) break;
+}
+
+// fallback
+if (!selectedVoice) {
+    selectedVoice = voices[0];
+}
+
+if (selectedVoice) {
+    currentSpeech.voice = selectedVoice;
+}
+
+    currentSpeech.rate = 1;
+    currentSpeech.pitch = 1;
+
+    currentSpeech.onend = () => {
+        isSpeaking = false;
+        speakerBtn.textContent = "🔊";
+    };
+
+    window.speechSynthesis.speak(currentSpeech);
+
+    isSpeaking = true;
+    speakerBtn.textContent = "⏹";
+}
+
+function stopSpeech(){
+
+    window.speechSynthesis.cancel();
+
+    isSpeaking = false;
+    speakerBtn.textContent = "🔊";
 }
 
 function copyCode(){
@@ -609,6 +696,8 @@ window.addEventListener("message",event=>{
 if(event.data.command==="update"){
 
 full=event.data.text;
+
+latestResponse = full;
 
 if(document.getElementById("commentedCode")){
 
@@ -785,6 +874,16 @@ background:#1e293b;
 padding:15px;
 margin-top:15px;
 border-radius:8px;
+}
+
+#speakerBtn{
+  font-size:18px;
+  padding:6px 10px;
+  cursor:pointer;
+  border-radius:6px;
+  border:none;
+  background:#334155;
+  color:white;
 }
 
 </style>
